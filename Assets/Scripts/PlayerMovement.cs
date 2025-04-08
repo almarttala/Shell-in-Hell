@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     // Movement variables
     public float speed = 5f;
     public float dashMultiplier = 2f;
+    public float rotationSpeed = 180f;
     
     // Dash timings (in seconds)
     public float dashDuration = 2f;
@@ -37,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     void HandleDashInputAndTimers()
     {
         // Check if dash can be started (not dashing and not in cooldown)
-        if (!isDashing && dashCooldownTimer <= 0f && Input.GetKeyDown(KeyCode.LeftShift))
+        if (!isDashing && dashCooldownTimer <= 0f && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)))
         {
             isDashing = true;
             dashTimer = dashDuration;
@@ -67,16 +68,14 @@ public class PlayerMovement : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal"); // A/D or Left/Right
         float verticalInput = Input.GetAxis("Vertical");       // W/S or Up/Down
 
-        // Create a movement vector based on input.
-        Vector3 moveDirection = new Vector3(horizontalInput, 0f, verticalInput);
-        if (moveDirection.magnitude > 1f)
-            moveDirection.Normalize();
+        // Rotate the player around its local y-axis
+        transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
         // Choose the speed based on whether the player is dashing.
         float currentSpeed = isDashing ? speed * dashMultiplier : speed;
 
-        // Move the player object. Multiplying by Time.deltaTime makes movement frame rate independent.
-        transform.Translate(moveDirection * currentSpeed * Time.deltaTime, Space.World);
+        // Move the player forward or backward along its local z-axis
+        transform.Translate(Vector3.forward * verticalInput * currentSpeed * Time.deltaTime, Space.Self);
     }
 
     void UpdateDashUI()
