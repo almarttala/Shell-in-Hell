@@ -9,95 +9,75 @@ public class PlayerMovement : MonoBehaviour
     public float dashMultiplier = 2f;
     public float rotationSpeed = 180f;
     
-    // Dash timings (in seconds)
-    public float dashDuration = 2f;
-    public float dashCooldown = 8f;
-
-    // Internal timers and state flags
-    private float dashTimer = 0f;
-    private float dashCooldownTimer = 0f;
-    private bool isDashing = false;
+    // Dash energy parameters
+    public float dashEnergyMax = 2f;      // Maximum dash energy (in seconds)
+    public float dashRechargeTime = 8f;   // Time (in seconds) to fully recharge dash energy
+    private float dashEnergy;             // Current dash energy
 
     // Dash ability bar
     public Image dashAbilityBar;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+        void Start()
     {
-        // No initialization required atp
+        // Initialize dash energy to full at the start.
+        dashEnergy = dashEnergyMax;
     }
 
-        void Update()
+    void Update()
     {
-        HandleDashInputAndTimers();
         HandleMovement();
         UpdateDashUI();
     }
 
-    void HandleDashInputAndTimers()
+void HandleMovement()
     {
-        // Check if dash can be started (not dashing and not in cooldown)
-        if (!isDashing && dashCooldownTimer <= 0f && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)))
-        {
-            isDashing = true;
-            dashTimer = dashDuration;
-        }
+        // Get input for rotation (A/D keys) and forward/backward movement (W/S keys)
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-        // If currently dashing, count down the dash timer.
-        if (isDashing)
-        {
-            dashTimer -= Time.deltaTime;
-            if (dashTimer <= 0f)
-            {
-                isDashing = false;
-                dashCooldownTimer = dashCooldown;
-            }
-        }
-
-        // If on cooldown, count down the cooldown timer.
-        if (dashCooldownTimer > 0f)
-        {
-            dashCooldownTimer -= Time.deltaTime;
-        }
-    }
-
-    void HandleMovement()
-    {
-        // Get input from WASD (or arrow keys)
-        float horizontalInput = Input.GetAxis("Horizontal"); // A/D or Left/Right
-        float verticalInput = Input.GetAxis("Vertical");       // W/S or Up/Down
-
-        // Rotate the player around its local y-axis
+        // Rotate the player around its local y-axis.
         transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
 
-        // Choose the speed based on whether the player is dashing.
-        float currentSpeed = isDashing ? speed * dashMultiplier : speed;
+        // Determine movement speed based on dash input and energy.
+        float currentSpeed = speed;
 
-        // Move the player forward or backward along its local z-axis
+        // Check if the dash key (Space) is held.
+        if (Input.GetKey(KeyCode.Space))
+        {
+            // Only apply dash if there's dash energy available.
+            if (dashEnergy > 0f)
+            {
+                currentSpeed = speed * dashMultiplier;
+                dashEnergy -= Time.deltaTime; // Deplete dash energy while dashing
+                if (dashEnergy < 0f)
+                    dashEnergy = 0f;
+            }
+            else
+            {
+                // Dash energy is empty so continue at normal speed.
+                currentSpeed = speed;
+            }
+        }
+        else
+        {
+            // Recharge dash energy when dash is not active.
+            float rechargeRate = dashEnergyMax / dashRechargeTime;
+            dashEnergy += rechargeRate * Time.deltaTime;
+            if (dashEnergy > dashEnergyMax)
+                dashEnergy = dashEnergyMax;
+        }
+
+        // Move the player forward or backward relative to its own orientation.
         transform.Translate(Vector3.forward * verticalInput * currentSpeed * Time.deltaTime, Space.Self);
     }
 
     void UpdateDashUI()
     {
-        if (dashAbilityBar == null)
-            return;
-        
-        // Update the UI fill amount based on the dash state.
-        if (isDashing)
+        // Update the UI dash bar's fill amount to reflect current dash energy.
+        if (dashAbilityBar != null)
         {
-            // Bar shrinks during dash: from 1 to 0 over dashDuration.
-            dashAbilityBar.fillAmount = dashTimer / dashDuration;
-        }
-        else if (dashCooldownTimer > 0f)
-        {
-            // During cooldown, the bar recharges: fill goes from 0 to 1 over dashCooldown.
-            dashAbilityBar.fillAmount = 1f - (dashCooldownTimer / dashCooldown);
-        }
-        else
-        {
-            // Dash ready, bar is full.
-            dashAbilityBar.fillAmount = 1f;
+            dashAbilityBar.fillAmount = dashEnergy / dashEnergyMax;
         }
     }
 }
