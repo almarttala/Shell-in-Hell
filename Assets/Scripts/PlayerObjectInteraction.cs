@@ -2,7 +2,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class PlayerObjectInteraction : MonoBehaviour
 {
     //public Transform transform;
     private LayerMask layerMask;
@@ -21,7 +21,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !grabbing)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E)) && !grabbing)
         {
             print("LEFT CLICK");
             RaycastHit hit;
@@ -34,13 +34,16 @@ public class NewMonoBehaviourScript : MonoBehaviour
                     print("GRABBE");
                     grabbing = true;
                     grabbedObject = hit.transform.gameObject;
-                    distToGrabbedObject = grabbedObject.transform.position - transform.position;
+                    distToGrabbedObject = transform.InverseTransformPoint(grabbedObject.transform.position);
+                    grabbedObjectRigidbody = grabbedObject.GetComponent<Rigidbody>();
+                    grabbedObjectRigidbody.useGravity = false;
                 }
+
             }
         }
-        if (grabbing && Input.GetMouseButton(0))
+        if (grabbing && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.E)))
         {
-            Vector3 desiredPosition = transform.position + distToGrabbedObject;
+ /*           Vector3 desiredPosition = transform.TransformPoint(distToGrabbedObject);
             float currentDistance = Vector3.Distance(grabbedObject.transform.position, transform.position);
 
             float minDistance = grabDistance - 0.5f;
@@ -50,17 +53,30 @@ public class NewMonoBehaviourScript : MonoBehaviour
             {
                 // Snap it back to desired position
                 grabbedObject.transform.position = desiredPosition;
-            }
+            }*/
         }
-        else if (grabbing && Input.GetMouseButtonUp(0))
+        else if (grabbing && (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.E)))
         {
             grabbing = false;
             grabbedObject = null;
+            if (grabbedObjectRigidbody != null)
+            {
+                grabbedObjectRigidbody.useGravity = true;
+                grabbedObjectRigidbody.constraints = RigidbodyConstraints.None;
+            }
+            grabbedObjectRigidbody = null;
         }
     }
 
     void FixedUpdate()
     {
-        
+        if (grabbing && grabbedObjectRigidbody != null)
+        {
+            Vector3 desiredPosition = transform.TransformPoint(distToGrabbedObject);
+            Quaternion desiredRotation = transform.rotation;
+
+            grabbedObjectRigidbody.MovePosition(desiredPosition);
+            grabbedObjectRigidbody.MoveRotation(desiredRotation);
+        }
     }
 }
