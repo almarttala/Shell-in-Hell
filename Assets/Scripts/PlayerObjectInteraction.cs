@@ -21,7 +21,7 @@ public class PlayerObjectInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !grabbing)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E)) && !grabbing)
         {
             print("LEFT CLICK");
             RaycastHit hit;
@@ -41,7 +41,7 @@ public class PlayerObjectInteraction : MonoBehaviour
 
             }
         }
-        if (grabbing && Input.GetMouseButton(0))
+        if (grabbing && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.E)))
         {
  /*           Vector3 desiredPosition = transform.TransformPoint(distToGrabbedObject);
             float currentDistance = Vector3.Distance(grabbedObject.transform.position, transform.position);
@@ -55,7 +55,7 @@ public class PlayerObjectInteraction : MonoBehaviour
                 grabbedObject.transform.position = desiredPosition;
             }*/
         }
-        else if (grabbing && Input.GetMouseButtonUp(0))
+        else if (grabbing && (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.E)))
         {
             grabbing = false;
             grabbedObject = null;
