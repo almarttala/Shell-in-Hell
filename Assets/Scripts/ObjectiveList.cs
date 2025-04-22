@@ -9,10 +9,13 @@ public class ObjectiveList : MonoBehaviour
     public List<Objective> objectives = new List<Objective>();
     public GameObject pauseMenu;
     public List<GameObject> objectiveObjectList = new List<GameObject>();
+    public GameObject gateKeeperNPC;
+    public GateKeeperHandler gateKeeperNPCScript;
     void Start()
     {
+        gateKeeperNPCScript = gateKeeperNPC.GetComponent<GateKeeperHandler>();
         AddObjective("Meet The Devil.");
-        AddObjective("Get past the gate.");
+        AddObjective("Get past the gate.", () => CheckGateObjective(), () => CompleteGateObjective());
         // Example: add an objective with a trigger function
         AddObjective("Bribe the guard.", () => CheckBribeObjective(), () => UnityEngine.Debug.Log("PLACEHOLDER FOR BRIBE OBJ COMPLETED"));
     }
@@ -21,6 +24,26 @@ public class ObjectiveList : MonoBehaviour
     {
 
     }
+
+    bool CheckGateObjective()
+    {
+        if (CheckBribeObjective())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }    
+    }
+
+    void CompleteGateObjective()
+    {
+        gateKeeperNPCScript.LeaveGate();
+        GameObject gateWall = GameObject.Find("GateWall");
+        gateWall.SetActive(false);
+    }
+
     bool CheckBribeObjective()
     {
         GameObject gold = GameObject.Find("Gold");
