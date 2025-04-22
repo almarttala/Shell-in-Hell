@@ -1,19 +1,33 @@
 using UnityEngine;
+using TMPro;
 
 public class PauseControl : MonoBehaviour
 {
     public static bool gameIsPaused;
+
+    public GameObject pauseMenu;
+
+    public GameObject objectiveList;
+
+    public ObjectiveList objectiveListScript;  
+
+
+    void Start()
+    {
+        objectiveListScript = objectiveList.GetComponent<ObjectiveList>();
+    }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             gameIsPaused = !gameIsPaused;
+            pauseMenu.SetActive(gameIsPaused);
             PauseGame();
         }
         if (gameIsPaused)
         {
-
+            PauseMenuSetup();
         }
         else
         {
@@ -31,5 +45,10 @@ public class PauseControl : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+    }
+
+    void PauseMenuSetup()
+    {
+
     }
 }
