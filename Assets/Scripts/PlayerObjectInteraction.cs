@@ -10,6 +10,7 @@ public class PlayerObjectInteraction : MonoBehaviour
     public Rigidbody grabbedObjectRigidbody;
     public float grabDistance;
     private Vector3 distToGrabbedObject;
+    private Quaternion grabbedObjectRotation;
     private bool grabbing = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,22 +25,37 @@ public class PlayerObjectInteraction : MonoBehaviour
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E)) && !grabbing)
         {
             print("LEFT CLICK");
-            RaycastHit hit;
+            RaycastHit hit1, hit2, hit3;
+            Vector3 verticalRaycastOffset = new Vector3(0, 0.5f, 0);
+
+            bool raycast1 = Physics.Raycast(transform.position, transform.forward, out hit1, grabDistance, layerMask);
+            bool raycast2 = Physics.Raycast(transform.position + verticalRaycastOffset, transform.forward, out hit2, grabDistance, layerMask);
+            bool raycast3 = Physics.Raycast(transform.position - verticalRaycastOffset, transform.forward, out hit3, grabDistance, layerMask);
+
             UnityEngine.Debug.DrawRay(transform.position, transform.forward * grabDistance, Color.red);
-            if (Physics.Raycast(transform.position, transform.forward, out hit, grabDistance, layerMask))
+
+            RaycastHit hit; // Final selected hit to use
+
+            if (raycast1)
+                hit = hit1;
+            else if (raycast2)
+                hit = hit2;
+            else if (raycast3)
+                hit = hit3;
+            else
+                return; // Nothing hit
+
+            if (hit.transform.CompareTag("InteractableObject"))
             {
-
-                if (hit.transform.gameObject.tag == "InteractableObject")
-                {
-                    print("GRABBE");
-                    grabbing = true;
-                    grabbedObject = hit.transform.gameObject;
-                    distToGrabbedObject = transform.InverseTransformPoint(grabbedObject.transform.position);
-                    grabbedObjectRigidbody = grabbedObject.GetComponent<Rigidbody>();
-                    grabbedObjectRigidbody.useGravity = false;
-                }
-
+                print("GRABBE");
+                grabbing = true;
+                grabbedObject = hit.transform.gameObject;
+                distToGrabbedObject = transform.InverseTransformPoint(grabbedObject.transform.position);
+                grabbedObjectRigidbody = grabbedObject.GetComponent<Rigidbody>();
+                grabbedObjectRigidbody.useGravity = false;
+                grabbedObjectRotation = Quaternion.Inverse(transform.rotation) * grabbedObject.transform.rotation;
             }
+
         }
         if (grabbing && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.E)))
         {
@@ -73,7 +89,7 @@ public class PlayerObjectInteraction : MonoBehaviour
         if (grabbing && grabbedObjectRigidbody != null)
         {
             Vector3 desiredPosition = transform.TransformPoint(distToGrabbedObject);
-            Quaternion desiredRotation = transform.rotation;
+            Quaternion desiredRotation = transform.rotation * grabbedObjectRotation;
 
             grabbedObjectRigidbody.MovePosition(desiredPosition);
             grabbedObjectRigidbody.MoveRotation(desiredRotation);

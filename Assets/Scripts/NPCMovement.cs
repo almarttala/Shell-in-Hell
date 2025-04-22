@@ -70,5 +70,12 @@ public class NPCMovement : MonoBehaviour
         targetPos = startPos + new Vector3(randomPoint.x, 0f, randomPoint.y);
         isMoving = true;
     }
+    
+    public void MoveToPoint(Vector3 point)
+    {
+        targetPos = point;
+        isMoving = true;
+        waitTimer = 0f;
+    }
 }
 
