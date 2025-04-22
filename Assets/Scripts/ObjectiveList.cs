@@ -18,6 +18,7 @@ public class ObjectiveList : MonoBehaviour
         AddObjective("Get past the gate.", () => CheckGateObjective(), () => CompleteGateObjective());
         // Example: add an objective with a trigger function
         AddObjective("Bribe the guard.", () => CheckBribeObjective(), () => UnityEngine.Debug.Log("PLACEHOLDER FOR BRIBE OBJ COMPLETED"));
+        AddObjective("Annoy the guard.", () => CheckAnnoyObjective());
     }
 
     void Update()
@@ -27,7 +28,7 @@ public class ObjectiveList : MonoBehaviour
 
     bool CheckGateObjective()
     {
-        if (CheckBribeObjective())
+        if (CheckBribeObjective() || CheckAnnoyObjective())
         {
             return true;
         }
@@ -36,6 +37,19 @@ public class ObjectiveList : MonoBehaviour
             return false;
         }    
     }
+
+    bool CheckAnnoyObjective()
+    {
+        if (gateKeeperNPCScript.annoyCount >= gateKeeperNPCScript.annoyCountMax)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     void CompleteGateObjective()
     {

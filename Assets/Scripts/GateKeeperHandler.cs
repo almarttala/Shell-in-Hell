@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using UnityEngine;
 
 public class GateKeeperHandler : MonoBehaviour
@@ -6,7 +7,9 @@ public class GateKeeperHandler : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public NPCMovement movementScript;
-
+    public int annoyCount = 0;
+    public int annoyCountMax = 5;
+    
     void Start()
     {
         
@@ -21,5 +24,13 @@ public class GateKeeperHandler : MonoBehaviour
     public void LeaveGate()
     {
         movementScript.MoveToPoint(transform.position + new Vector3(1f, 0f, 15f));
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Pitchfork")
+        {
+            annoyCount++;
+            UnityEngine.Debug.Log("Pitchfork collided! annoyCounter: " + annoyCount);
+        }
     }
 }
