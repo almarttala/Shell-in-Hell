@@ -11,14 +11,18 @@ public class ObjectiveList : MonoBehaviour
     public List<GameObject> objectiveObjectList = new List<GameObject>();
     public GameObject gateKeeperNPC;
     public GateKeeperHandler gateKeeperNPCScript;
+    public GameObject boulder;
+    public BoulderMovement boulderScript;
     void Start()
     {
         gateKeeperNPCScript = gateKeeperNPC.GetComponent<GateKeeperHandler>();
+        boulderScript = boulder.GetComponent<BoulderMovement>();
         AddObjective("Meet The Devil.");
         AddObjective("Get past the gate.", () => CheckGateObjective(), () => CompleteGateObjective());
         // Example: add an objective with a trigger function
         AddObjective("Bribe the guard.", () => CheckBribeObjective(), () => UnityEngine.Debug.Log("PLACEHOLDER FOR BRIBE OBJ COMPLETED"));
         AddObjective("Annoy the guard.", () => CheckAnnoyObjective());
+        AddObjective("Scare the guard.", () => CheckBoulderObjective());
     }
 
     void Update()
@@ -26,9 +30,21 @@ public class ObjectiveList : MonoBehaviour
 
     }
 
+     bool CheckBoulderObjective()
+    {
+        if (!boulderScript.onRails)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     bool CheckGateObjective()
     {
-        if (CheckBribeObjective() || CheckAnnoyObjective())
+        if (CheckBribeObjective() || CheckAnnoyObjective() || CheckBoulderObjective())
         {
             return true;
         }

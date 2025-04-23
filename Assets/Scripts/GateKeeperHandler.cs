@@ -21,9 +21,31 @@ public class GateKeeperHandler : MonoBehaviour
         
     }
 
+    void FixedUpdate()
+    {
+        GameObject boulder = GameObject.Find("Boulder");
+        if (boulder != null)
+        {
+            float distance = Vector3.Distance(transform.position, boulder.transform.position);
+
+            if (distance <= 15f)
+            {
+                movementScript.walkSpeed = 8f;
+            }
+            else
+            {
+
+            }
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("Boulder not found in the scene.");
+        }
+    }
+
     public void LeaveGate()
     {
-        movementScript.MoveToPoint(transform.position + new Vector3(1f, 0f, 15f));
+        movementScript.MoveToPoint(transform.position + new Vector3(1f, 0f, -15f));
     }
     private void OnCollisionEnter(Collision collision)
     {
