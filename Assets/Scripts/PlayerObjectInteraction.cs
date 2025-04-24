@@ -12,7 +12,8 @@ public class PlayerObjectInteraction : MonoBehaviour
     private Vector3 distToGrabbedObject;
     private Quaternion grabbedObjectRotation;
     private bool grabbing = false;
-
+    public AudioSource audioSource;
+    public AudioClip grabSfx;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -52,6 +53,7 @@ public class PlayerObjectInteraction : MonoBehaviour
 
             if (hit.transform.CompareTag("InteractableObject"))
             {
+                audioSource.PlayOneShot(grabSfx, 0.5f);
                 print("GRABBE");
                 grabbing = true;
                 grabbedObject = hit.transform.gameObject;

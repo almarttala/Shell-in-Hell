@@ -14,6 +14,8 @@ public class ObjectiveList : MonoBehaviour
     public GameObject boulder;
     public BoulderMovement boulderScript;
     public TMP_FontAsset textFont;
+    public AudioSource audioSource;
+    public AudioClip objectiveCompleteSfx;
     void Start()
     {
         gateKeeperNPCScript = gateKeeperNPC.GetComponent<GateKeeperHandler>();
@@ -85,6 +87,8 @@ public class ObjectiveList : MonoBehaviour
         gateKeeperNPCScript.LeaveGate();
         GameObject gateWall = GameObject.Find("GateWall");
         gateWall.SetActive(false);
+        audioSource.PlayOneShot(objectiveCompleteSfx, 0.5f);
+
     }
 
     bool CheckBribeObjective()
