@@ -13,6 +13,7 @@ public class ObjectiveList : MonoBehaviour
     public GateKeeperHandler gateKeeperNPCScript;
     public GameObject boulder;
     public BoulderMovement boulderScript;
+    public TMP_FontAsset textFont;
     void Start()
     {
         gateKeeperNPCScript = gateKeeperNPC.GetComponent<GateKeeperHandler>();
@@ -20,9 +21,9 @@ public class ObjectiveList : MonoBehaviour
         AddObjective("Meet The Devil.");
         AddObjective("Get past the gate.", () => CheckGateObjective(), () => CompleteGateObjective());
         // Example: add an objective with a trigger function
-        AddObjective("Bribe the guard.", () => CheckBribeObjective(), () => UnityEngine.Debug.Log("PLACEHOLDER FOR BRIBE OBJ COMPLETED"));
+        AddObjective("Bribe the guard.", () => CheckBribeObjective(), () => CompleteBribeObjective());
         AddObjective("Annoy the guard.", () => CheckAnnoyObjective());
-        AddObjective("Scare the guard.", () => CheckBoulderObjective());
+        AddObjective("Scare the guard.", () => CheckBoulderObjective(), () => CompleteBoulderObjective());
     }
 
     void Update()
@@ -30,7 +31,19 @@ public class ObjectiveList : MonoBehaviour
 
     }
 
-     bool CheckBoulderObjective()
+    void CompleteBribeObjective()
+    {
+        NPCDialog dialogScript = gateKeeperNPC.GetComponent<NPCDialog>();
+        dialogScript.ShowPopup("...Ok fine, but you better not tell anyone about this.");
+    }
+
+    void CompleteBoulderObjective()
+    {
+        NPCDialog dialogScript = gateKeeperNPC.GetComponent<NPCDialog>();
+        dialogScript.ShowPopup("JESUS");
+    }
+
+    bool CheckBoulderObjective()
     {
         if (!boulderScript.onRails)
         {
@@ -144,8 +157,8 @@ public class ObjectiveList : MonoBehaviour
         Objective newObj = new Objective(name, trigger, onComplete);
         objectives.Add(newObj);
         // Create a new GameObject
-        int textYPos = 133;
-        int textHeight = 50;
+        int textYPos = 85;
+        int textHeight = 55;
         int objectiveIndex = objectives.IndexOf(newObj);
         textYPos = textYPos - (textHeight * objectiveIndex);
         GameObject tmpObj = new GameObject("ObjectiveText"+name);
@@ -161,6 +174,9 @@ public class ObjectiveList : MonoBehaviour
         tmp.fontSize = 36;
         tmp.color = Color.white;
         tmp.alignment = TextAlignmentOptions.Center;
+        tmp.color = new Color(0.074509f, 0.074509f, 0.074509f);
+        tmp.font = textFont;
+        tmp.fontStyle = FontStyles.Bold;
         RectTransform rect = tmp.GetComponent<RectTransform>();
         rect.anchoredPosition = new Vector2(0, textYPos); // Top center
         rect.sizeDelta = new Vector2(884, 50);

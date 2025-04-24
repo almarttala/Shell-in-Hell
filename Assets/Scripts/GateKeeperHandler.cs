@@ -9,7 +9,7 @@ public class GateKeeperHandler : MonoBehaviour
     public NPCMovement movementScript;
     public int annoyCount = 0;
     public int annoyCountMax = 5;
-    
+    public NPCDialog dialogScript;
     void Start()
     {
         
@@ -53,6 +53,24 @@ public class GateKeeperHandler : MonoBehaviour
         {
             annoyCount++;
             UnityEngine.Debug.Log("Pitchfork collided! annoyCounter: " + annoyCount);
+            switch (annoyCount)
+            {
+                case 1:
+                    dialogScript.ShowPopup("Hey, stop it.");
+                    break;
+                case 2:
+                    dialogScript.ShowPopup("That hurts.");
+                    break;
+                case 3:
+                    dialogScript.ShowPopup("Either stop it or I'll make you stop.");
+                    break;
+                case 4:
+                    dialogScript.ShowPopup("I mean it!");
+                    break;
+                case 5:
+                    dialogScript.ShowPopup("Fine. Have it your way, just stop doing that.");
+                    break;
+            }
         }
     }
 }
