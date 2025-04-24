@@ -13,10 +13,10 @@ public class PlayerMovement : MonoBehaviour
     public float dashEnergyMax = 2f;      // Maximum dash energy (in seconds)
     public float dashRechargeTime = 8f;   // Time (in seconds) to fully recharge dash energy
     private float dashEnergy;             // Current dash energy
-
+    public AudioSource audioSource;
     // Dash ability bar
     public Image dashAbilityBar;
-
+    public bool walkSoundPlaying = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
     {
@@ -70,6 +70,17 @@ void HandleMovement()
 
         // Move the player forward or backward relative to its own orientation.
         transform.Translate(Vector3.forward * verticalInput * currentSpeed * Time.deltaTime, Space.Self);
+        if (verticalInput != 0 && !walkSoundPlaying)
+        {
+            print("START PLAYING SOUND");
+            audioSource.Play();
+            walkSoundPlaying = true;
+        }
+        else if (walkSoundPlaying && verticalInput == 0)
+        {
+            audioSource.Stop();
+            walkSoundPlaying = false;
+        }    
     }
 
     void UpdateDashUI()
