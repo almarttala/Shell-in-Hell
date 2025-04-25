@@ -11,7 +11,7 @@ public class PlayerObjectInteraction : MonoBehaviour
     public float grabDistance;
     private Vector3 distToGrabbedObject;
     private Quaternion grabbedObjectRotation;
-    private bool grabbing = false;
+    public bool grabbing = false;
     public AudioSource audioSource;
     public AudioClip grabSfx;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
