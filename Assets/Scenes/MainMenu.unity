@@ -291,8 +291,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0025024, y: 0}
-  m_SizeDelta: {x: 884.51, y: 435.5}
+  m_AnchoredPosition: {x: -0.53, y: -4.16}
+  m_SizeDelta: {x: 1931.99, y: 1146.54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &532889417
 BoxCollider2D:
@@ -602,12 +602,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 750, y: 435}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -622,9 +622,9 @@ Canvas:
   m_GameObject: {fileID: 722023677}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 1227622005}
+  m_PlaneDistance: 1000
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -877,6 +877,7 @@ GameObject:
   - component: {fileID: 1177822916}
   - component: {fileID: 1177822918}
   - component: {fileID: 1177822917}
+  - component: {fileID: 1177822919}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -941,6 +942,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177822915}
   m_CullTransparentMesh: 1
+--- !u!114 &1177822919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177822915}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 4
+  m_AspectRatio: 1.6850524
 --- !u!1 &1227622003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,7 +1017,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -1114,8 +1129,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0025146, y: -170.41}
-  m_SizeDelta: {x: 192.3212, y: 94.6876}
+  m_AnchoredPosition: {x: -0.53002, y: -179.5}
+  m_SizeDelta: {x: 204.7, y: 76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1803780539
 MonoBehaviour:

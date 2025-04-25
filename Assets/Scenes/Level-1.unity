@@ -7880,8 +7880,20 @@ PrefabInstance:
       value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 2807242586721309192, guid: effd9b1f4a94967478620234a75507fa, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 3.9398
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807242586721309192, guid: effd9b1f4a94967478620234a75507fa, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 2.454
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807242586721309192, guid: effd9b1f4a94967478620234a75507fa, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 347
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807242586721309192, guid: effd9b1f4a94967478620234a75507fa, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -340
+      value: -152
       objectReference: {fileID: 0}
     - target: {fileID: 7727808974740372251, guid: effd9b1f4a94967478620234a75507fa, type: 3}
       propertyPath: m_Pivot.x
@@ -7962,6 +7974,18 @@ PrefabInstance:
     - target: {fileID: 7727808974740372251, guid: effd9b1f4a94967478620234a75507fa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9189142116783471001, guid: effd9b1f4a94967478620234a75507fa, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9189142116783471001, guid: effd9b1f4a94967478620234a75507fa, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 9189142116783471001, guid: effd9b1f4a94967478620234a75507fa, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 435
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10219,12 +10243,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 750, y: 435}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -10402,6 +10426,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5423975350354557423, guid: b7ed99688cb14469c8a80f07f201cafb, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5423975350354557423, guid: b7ed99688cb14469c8a80f07f201cafb, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5423975350354557423, guid: b7ed99688cb14469c8a80f07f201cafb, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 5423975350354557423, guid: b7ed99688cb14469c8a80f07f201cafb, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 435
+      objectReference: {fileID: 0}
     - target: {fileID: 5729971296903873056, guid: b7ed99688cb14469c8a80f07f201cafb, type: 3}
       propertyPath: m_Name
       value: NPC Dialog Canvas
@@ -10541,7 +10581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popupPrefab: {fileID: 1359500370409203806, guid: 483c10be23d766f4fb3600744326b03c, type: 3}
-  offset: {x: 50, y: 70}
+  offset: {x: 75, y: 95}
   uiPos: {x: 0, y: 0}
   canvasRect: {fileID: 0}
   popupRect: {fileID: 0}
